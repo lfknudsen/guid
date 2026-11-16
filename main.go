@@ -1,9 +1,11 @@
 package main
 
 import (
+	"path/filepath"
 	"flag"
 	"fmt"
 	"os"
+	"strconv"
 	"strings"
 	"uuid"
 
@@ -29,6 +31,33 @@ func main() {
 		printHelp()
 		os.Exit(0)
 	}
+	if len(flag.Args()) == 1 {
+		n, err := strconv.Atoi(flag.Args()[0])
+		if *amount == 1 {
+			if err != nil {
+				_, _ = fmt.Fprintf(os.Stderr, 
+					"Attempted to parse '%s' as a number, but unsuccessfully. Try \033[93m%s -h\033[0m for help.\n",
+					flag.Args()[0],
+					filepath.Base(os.Args[0]))
+				os.Exit(1)
+			} else {
+				*amount = n
+			}
+		} else {
+			_, _ = fmt.Fprintf(os.Stderr,
+				"No unbound arguments expected, but received '%s'. Try \033[93m%s -h\033[0m for help.\n",
+				flag.Args()[0],
+				filepath.Base(os.Args[0]))
+			os.Exit(1)
+		}
+	} else if len(flag.Args()) > 1 {
+		_, _ = fmt.Fprintf(os.Stderr, 
+			"No unbound arguments expected, but received several, starting with '%s'. Try \033[93m%s -h\033[0m for help.\n",
+			flag.Args()[0],
+			filepath.Base(os.Args[0]))
+		os.Exit(1)
+	}
+
 	var generatorFunction func() uuid.UUID = uuid.NewV4
 	switch *version {
 	case 4:
