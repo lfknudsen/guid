@@ -11,10 +11,11 @@ go build
 ## Usage
 
 ```
-guid [OPTIONS]
+guid [OPTIONS] [<number>]
 
 Options:
--n <number>      The number of UUIDs to generate. (default 1)
+-n <number>      The number of UUIDs to generate. (default 1).
+                 This is the equivalent of 'guid <number>'.
 -no-copy         Don't copy output to clipboard.
 -no-print        Don't print output to stdout.
 -v <version>     Determine the UUID version to use. 4 or 7 accepted. (default 4)
